@@ -2,37 +2,35 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
+        stage('Checkout from SCM') {
             steps {
-                // Pulls code from the repository configured in the Jenkins Job
+                // This will use the Jenkins job's configured SCM (local repo or linked GitHub)
                 checkout scm
             }
         }
 
-        stage('Compile') {
+        stage('Compile Java') {
             steps {
-                echo 'Compiling Java program...'
                 sh 'javac HelloWorld.java'
             }
         }
 
-        stage('Execute & Verify') {
+        stage('Run Java App') {
             steps {
-                echo 'Executing application...'
-                // Run the program and pipe output to verify it works
                 sh 'java HelloWorld'
             }
         }
-    }
 
-    post {
-        success {
-            echo 'Pipeline completed successfully!'
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t hello-world-java .'
+            }
         }
-        failure {
-            echo 'Pipeline failed. Check the logs above.'
+
+        stage('Run Docker Container') {
+            steps {
+                sh 'docker run --rm hello-world-java'
+            }
         }
     }
 }
-
-
