@@ -1,6 +1,5 @@
-FROM openjdk:11-jdk-slim
-WORKDIR /app
-COPY HelloWorld.java /app
-RUN javac HelloWorld.java
-CMD ["java","HelloWorld.java"]
+FROM	eclipse-temurin:11.0.31_11-jre-noble
+WORKDIR	/app
+COPY	HelloWorld.class .
+CMD	["java","HelloWorld"]
 
