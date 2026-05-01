@@ -1,5 +1,5 @@
-FROM	eclipse-temurin:11.0.31_11-jre-noble
-WORKDIR	/app
-COPY	HelloWorld.class .
-CMD	["java","HelloWorld"]
+FROM openjdk:27-ea-jdk-slim
+WORKDIR /app
+COPY HelloWorld.class /app
+CMD ["java","HelloWorld"]
 
