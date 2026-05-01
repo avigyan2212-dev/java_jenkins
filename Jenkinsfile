@@ -5,8 +5,7 @@ pipeline {
         DOCKERHUB_USER = 'avigyan2212'   // replace with your DockerHub username
         IMAGE_NAME = 'hello-world-java'
         IMAGE_TAG = 'latest'
-        KUBECONFIG = '/usr/local/bin/kubectl'          // adjust path if different
-    }
+        }
 
     stages {
         stage('Checkout') {
