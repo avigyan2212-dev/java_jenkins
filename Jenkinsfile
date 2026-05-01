@@ -15,12 +15,6 @@ pipeline {
             }
         }
 
-        stage('Start Minikube') {
-            steps {
-                sh 'minikube start --driver=docker'
-            }
-        }
-
         stage('Pull Docker Image') {
             steps {
                 sh "docker pull ${DOCKERHUB_USER}/${IMAGE_NAME}:${IMAGE_TAG}"
