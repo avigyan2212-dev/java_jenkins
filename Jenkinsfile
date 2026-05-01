@@ -2,10 +2,10 @@ pipeline {
     agent any
 
     environment {
-        DOCKERHUB_USER = 'avigyan2212'   
+        DOCKERHUB_USER = 'avigyan2212'   // replace with your DockerHub username
         IMAGE_NAME = 'hello-world-java'
         IMAGE_TAG = 'latest'
-        KUBECONFIG = '/var/lib/jenkins/.kube/config'  
+        KUBECONFIG = '/home/avi/.kube/config'          // adjust path if different
     }
 
     stages {
@@ -15,40 +15,15 @@ pipeline {
             }
         }
 
-        stage('Compile Java') {
-            steps {
-                sh 'javac HelloWorld.java'
-            }
-        }
-
-        stage('Run Java App') {
-            steps {
-                sh 'java HelloWorld'
-            }
-        }
-
-        stage('Build Docker Image') {
-            steps {
-                sh "docker build -t ${IMAGE_NAME} ."
-            }
-        }
-
-        stage('Run Docker Container') {
-            steps {
-                sh "docker run --rm ${IMAGE_NAME}"
-            }
-        }
-
-        stage('Tag & Push Docker Image') {
-            steps {
-                sh "docker tag ${IMAGE_NAME} ${DOCKERHUB_USER}/${IMAGE_NAME}:${IMAGE_TAG}"
-                sh "docker push ${DOCKERHUB_USER}/${IMAGE_NAME}:${IMAGE_TAG}"
-            }
-        }
-
         stage('Start Minikube') {
             steps {
                 sh 'minikube start --driver=docker'
+            }
+        }
+
+        stage('Pull Docker Image') {
+            steps {
+                sh "docker pull ${DOCKERHUB_USER}/${IMAGE_NAME}:${IMAGE_TAG}"
             }
         }
 
@@ -67,3 +42,5 @@ pipeline {
         }
     }
 }
+
+
