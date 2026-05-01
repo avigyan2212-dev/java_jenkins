@@ -46,6 +46,12 @@ pipeline {
             }
         }
 
+        stage('Start Minikube') {
+            steps {
+                sh 'minikube start --driver=docker'
+            }
+        }
+
         stage('Deploy to Kubernetes') {
             steps {
                 sh 'kubectl apply -f deployment.yaml'
